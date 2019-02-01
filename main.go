@@ -6,7 +6,7 @@ import (
 
 	"github.com/codegangsta/negroni"
 	common "github.com/alx-t/go-playground/common"
-	"github.com/alx-t/go-playground/routers"
+	"github.com/alx-t/go-playground/routes"
 )
 
 //Entry point of the program
