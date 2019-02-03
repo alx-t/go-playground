@@ -2,9 +2,12 @@ package common
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
+	"strings"
 )
 
 type (
@@ -19,8 +22,8 @@ type (
 	}
 
 	configuration struct {
-		Server, DBHost, DBUser, DBPwd, Database string
-		LogLevel                                int
+		Server, DBHost, DBPort, DBUser, DBPwd, DBName string
+		LogLevel                                      int
 	}
 )
 
@@ -30,8 +33,7 @@ func DisplayAppError(w http.ResponseWriter, handlerError error, message string, 
 		Message:    message,
 		HttpStatus: code,
 	}
-	//log.Printf("AppError]: %s\n", handlerError)
-	Error.Printf("AppError]: %s\n", handlerError)
+	log.Printf("AppError]: %s\n", handlerError)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(code)
 	if j, err := json.Marshal(errorResource{Data: errObj}); err == nil {
@@ -46,7 +48,7 @@ func initConfig() {
 }
 
 func loadAppConfig() {
-	file, err := os.Open("common/config.json")
+	file, err := os.Open("config.json")
 	defer file.Close()
 	if err != nil {
 		log.Fatalf("[loadConfig]: %s\n", err)
@@ -57,4 +59,18 @@ func loadAppConfig() {
 	if err != nil {
 		log.Fatalf("[loadAppConfig]: %s\n", err)
 	}
+}
+
+func ExecuteCmd(cmd string) {
+	fmt.Println("command is ", cmd)
+	// splitting head => g++ parts => rest of the command
+	parts := strings.Fields(cmd)
+	head := parts[0]
+	parts = parts[1:]
+
+	out, err := exec.Command(head, parts...).Output()
+	if err != nil {
+		fmt.Printf("%s", err)
+	}
+	fmt.Printf("%s", out)
 }
