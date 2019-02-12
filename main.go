@@ -27,13 +27,6 @@ func main() {
 	}
 
 	defer common.Db.Close()
-
-	// recs, err := project.Read(common.Db, "")
-	// if err != nil {
-	// 	fatal(err)
-	// }
-	// log.Println(recs)
-
 	// common.ExecuteCmd("ls -al")
 
 	log.Println("Listening...")

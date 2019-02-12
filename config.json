@@ -1,6 +1,6 @@
 {
   "Server"      : "0.0.0.0:8080",
-  "DBHost"      : "127.0.0.1",
+  "DBHost"      : "host.docker.internal",
   "DBUser"	    : "postgres",
   "DBPort"	    : "5432",
   "DBPwd"	      : "",
