@@ -1,0 +1,9 @@
+{
+  "Server"      : "0.0.0.0:8080",
+  "DBHost"      : "host.docker.internal",
+  "DBUser"	    : "postgres",
+  "DBPort"	    : "5432",
+  "DBPwd"	      : "",
+  "DBName"      : "go_playground",
+  "LogLevel"    : 4
+}

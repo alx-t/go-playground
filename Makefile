@@ -24,7 +24,7 @@ build_beta:
 deploy_beta:
 
 run:
-	docker run --rm \
+	docker run -d --rm \
 	-p 8080:8080 \
 	--name=go_playground \
 	playground

@@ -7,8 +7,8 @@ import (
 
 func ReadOne(db *sql.DB, id int) (models.Project, error) {
 	var rec models.Project
-	row := db.QueryRow("SELECT id, name, data FROM projects WHERE id=$1 ORDER BY id", id)
-	return rec, row.Scan(&rec.Id, &rec.Name, &rec.Data)
+	row := db.QueryRow("SELECT id, user_id, name, data, created_at, updated_at FROM projects WHERE id=$1 ORDER BY id", id)
+	return rec, row.Scan(&rec.Id, &rec.UserId, &rec.Name, &rec.Data, &rec.CreatedAt, &rec.UpdatedAt)
 }
 
 func Read(db *sql.DB, str string) ([]models.Project, error) {
@@ -37,4 +37,18 @@ func Read(db *sql.DB, str string) ([]models.Project, error) {
 		return nil, err
 	}
 	return rs, nil
+}
+
+func Insert(db *sql.DB, prj *models.Project) (sql.Result, error) {
+	return db.Exec("INSERT INTO projects VALUES (default, $1, $2, $3)",
+		prj.UserId, prj.Name, prj.Data)
+}
+
+func Remove(db *sql.DB, id int) (sql.Result, error) {
+	return db.Exec("DELETE FROM projects WHERE id=$1", id)
+}
+
+func Update(db *sql.DB, id int, prj *models.Project) (sql.Result, error) {
+	return db.Exec("UPDATE projects SET user_id = $1, name = $2, data = $3, updated_at = now() WHERE id=$4",
+		prj.UserId, prj.Name, prj.Data)
 }
